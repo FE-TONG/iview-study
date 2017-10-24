@@ -1,0 +1,19 @@
+{
+  "name": "iview-study",
+  "version": "1.0.0",
+  "description": "这是一个尽量模仿iview的项目.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zengzhangtong/iview-study.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zengzhangtong/iview-study/issues"
+  },
+  "homepage": "https://github.com/zengzhangtong/iview-study#readme"
+}
