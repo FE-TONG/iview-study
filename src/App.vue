@@ -13,7 +13,7 @@
     <Icon type="all"></Icon>
 
     <Avatar icon="pdf" size="large" />
-
+    <BackTop ></BackTop>
     <auto-complete 
       :data="[]" 
       v-model="value"
@@ -28,6 +28,7 @@ import Affix from './components/affix'
 import AutoComplete from './components/AutoComplete'
 import Icon from './components/icon'
 import Avatar from './components/avatar'
+import BackTop from './components/BackTop';
 export default {
   name: 'app',
   data () {
@@ -42,7 +43,8 @@ export default {
     Affix,
     AutoComplete,
     Icon,
-    Avatar
+    Avatar,
+    BackTop
   },
   methods:{
     change(status){
