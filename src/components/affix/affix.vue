@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div :class="classes">
-            <solt>
+        <div :class="classes" :style="styles">
+            <slot>
 
-            </solt>
+            </slot>
         </div>
     </div>
 </template>
@@ -19,6 +19,7 @@
         }
         return ret;
     }
+
     function getOffset(element) {
         const rect = element.getBoundingClientRect();
         const scrollTop = getScroll(window, true);
@@ -44,6 +45,7 @@ export default {
     },
     data(){
         return {
+            prefixCls: prefixCls,
             affix: false,
             styles: {}
         }
@@ -76,11 +78,49 @@ export default {
     methods: {
         handleScroll(){
             const affix = this.affix;
-            /* 
-                this.offsetType == 'top' &&( 当前元素距离顶部的距离 - this.offsetTop)< 可见距离高度
+            const elOffset = getOffset(this.$el);
+            const scrollTop = getScroll(window, true);
+            const windowHeight = window.innerHeight;
+            const elHeight = this.$el.getElementsByTagName('div')[0].offsetHeight;
 
-            */
+            if(this.offsetType == 'top' && (elOffset.top - this.offsetTop) < scrollTop  && !affix){
+                this.affix = true;
+                this.styles = {
+                    top: `${this.offsetTop}px`,
+                    left: `${elOffset.left}px`,
+                    width: `${this.$el.offsetWidth}px`
+                }
+                this.$emit('on-change', true);
+            }else if(this.offsetType == 'top' && (elOffset.top - this.offsetTop) > scrollTop  && affix){
+                this.affix = false;
+                this.styles = null;
+                this.$emit('on-change', false);
+            }
+
+            // Fixed Bottom
+            if ((elOffset.top + this.offsetBottom + elHeight) > (scrollTop + windowHeight) && this.offsetType == 'bottom' && !affix) {
+                this.affix = true;
+                this.styles = {
+                    bottom: `${this.offsetBottom}px`,
+                    left: `${elOffset.left}px`,
+                    width: `${this.$el.offsetWidth}px`
+                };
+
+                this.$emit('on-change', true);
+            } else if ((elOffset.top + this.offsetBottom + elHeight) < (scrollTop + windowHeight) && this.offsetType == 'bottom' && affix) {
+                this.affix = false;
+                this.styles = null;
+
+                this.$emit('on-change', false);
+            }
         }
     }
 }
 </script>
+<style scoped>
+    .ivu-affix{
+        position: fixed;
+        z-index: 10;
+    }
+</style>
+

@@ -1,69 +1,91 @@
 <template>
-    <div>
-        <div :class="wrapclasses">
-            <slot name="icon" v-if="showIcon"></slot>
-            <slot></slot>
-            <slot name="desc"></slot>
-            <slot :class="closeClasses" v-if="closable" name="close">
-                <i>关闭功能</i>
-            </slot>
+    <transition name="fade">
+        <div v-if="!closed" :class="wrapClasses">
+            <span :class="iconClasses" v-if="showIcon">
+                <slot name="icon">
+                    <Icon :type="iconType"></Icon>
+                </slot>
+            </span>
+            <span :class="messageClasses"><slot></slot></span>
+            <span :class="descClasses"><slot name="desc"></slot></span>
+            <a :class="closeClasses" v-if="closable" @click="close">
+                <slot name="close">
+                    <Icon type="ios-close-empty"></Icon>
+                </slot>
+            </a>
         </div>
-    </div>
+    </transition>
 </template>
 <script>
-const prefixCls = 'ive-alert';
-const arr = ['info', 'success', 'warning', 'error'];
-function oneOf(){
-    for (let i = 0; i < validList.length; i++) {
-        if (value === validList[i]) {
+function oneOf(value, arr){
+    for(let i=0;i<arr.length;i++){
+        if(arr[i] == value){
             return true;
         }
     }
     return false;
 }
+const prefixCls = 'ive-alert';
 export default {
     name: 'alert',
-    props: {
+    props:{
         type: {
             validator(value){
-                return oneOf(value, arr)
+                return oneOf(value, ['info', 'success', 'warning', 'error']);
             },
             default: 'info'
         },
-        // 是否开启 关闭功能
-        closable: {
+        closable:{
             type: Boolean,
             default: false
         },
-        // 是否开启 图标显示功能
-        showIcon: {
+        showIcon:{
             type: Boolean,
-            default: true
+            default: false
         }
     },
     data(){
         return {
+            closed: false,
 
         }
     },
-    computed: {
-        wrapclasses(){
+    computed:{
+        wrapClasses(){
             return [
                 `${prefixCls}`,
                 `${prefixCls}-${this.type}`,
                 {
-                    [`${prefixCls}-with-icon`]: this.showIcon,
-                    [`${prefixCls}-with-desc`]: this.desc,
-                    [`${prefixCls}-with-banner`]: this.banner
-                }   
+                    [`${prefixCls}-with-icon`]: this.showIcon
+                }
             ];
         },
+        iconClasses(){
+            return `${prefixCls}-icon`;
+        },
+        messageClasses(){
+
+        },
+        descClasses(){
+
+        },
         closeClasses(){
-            return `${prefixCls}-close`;
+
+        },
+        
+        iconType(){
+
         }
     },
-    mounted(){
-        this.desc = this.$slots.desc !== undefined;
+    mounted () {
+        // this.desc = this.$slots.desc !== undefined;
+    },
+    methods:{
+        close(e){
+            this.closed = true;
+            this.$emit('on-close', e);
+        }
     }
 }
 </script>
+
