@@ -72,7 +72,8 @@
                 this.show = window.pageYOffset >= this.height;
             },
             back(e){
-                this.$eimt('on-click', e)
+                console.log(this)
+                this.$emit('on-click', e)
             }
         }
     }
