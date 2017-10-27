@@ -9,7 +9,7 @@
 const prefixCls = "ive-button";
 import { oneOf } from "../../utils";
 export default {
-  name: "button",
+  name: "Button",
   props: {
     type: {
       validator(value) {
@@ -61,6 +61,7 @@ export default {
         没有 undefined !== undefined    false不显示
       */
     this.showSlot = this.$slots.default !== undefined;
+    console.log(this.$options.componentName, 'button')
   },
   methods: {
     handleClick(event) {
