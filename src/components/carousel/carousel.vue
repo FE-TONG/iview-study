@@ -1,12 +1,12 @@
 <template>
     <div ref="carousel" :class="wrapClass">
-        <button :class="leftButton">
+        <button :class="ButtonCls" class="left">
             <Icon type="back"></Icon>
         </button>
         <div class="list" :style="{'height': height}">
             <slot></slot>
         </div>
-        <button :class="rightButton">
+        <button :class="ButtonCls" class="right">
             <Icon type="more"></Icon>
         </button>
 
@@ -75,30 +75,13 @@
             }
         },
         computed: {
-            list(){
-                /* 
-                    我以为可以直接在 当前this上拿到item的，多想了
-                    先看看源码可以不。  现在使用children
-                */
-                console.log(this);
-                let length = this.$children.length;
-                return length;
-            },
             wrapClass(){
                 return `${prefixCls}`
             },
-            leftButton(){
+            ButtonCls(){
                 return [
                     `${prefixCls}-arrow`,
                     `${prefixCls}-arrow-hover`,
-                    `left`
-                ]
-            },
-            rightButton(){
-                return [
-                    `ivu-carousel-arrow`,
-                    `ivu-carousel-arrow-hover`,
-                    `right`
                 ]
             },
             dotsWarp(){
@@ -109,9 +92,24 @@
             }
         },
         mounted(){
-
+            this.findChild();
         },
         methods: {
+            // find option component
+            findChild(){
+                console.log(this)
+                this.$children.forEach((child)=>{
+                    let name = child.$options.componentName;
+                    console.log(name)
+                    if(name){
+                        
+                    }else if(child.$children.length){
+                        child.$children.forEach((innerChild) => {
+                            find(innerChild, cb);
+                        });
+                    }
+                })
+            },
 
         }
     }
