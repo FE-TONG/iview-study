@@ -11,14 +11,20 @@
     </Affix> -->
     
     <Icon type="all"></Icon>
-
+    <ButtonGroup>
+    <Button>123</Button>
+    <Button>345</Button>
+    </ButtonGroup>
     <Avatar icon="pdf" size="large" />
-
+    <BackTop ></BackTop>
     <auto-complete 
       :data="[]" 
       v-model="value"
       size="large"></auto-complete>
+    <Carousel></Carousel>
     <div style="height:5000px;"></div>
+
+
   </div>
 </template>
 
@@ -28,6 +34,10 @@ import Affix from './components/affix'
 import AutoComplete from './components/AutoComplete'
 import Icon from './components/icon'
 import Avatar from './components/avatar'
+import BackTop from './components/BackTop';
+import Button from './components/Button';
+
+import Carousel from './components/Carousel';
 export default {
   name: 'app',
   data () {
@@ -42,7 +52,11 @@ export default {
     Affix,
     AutoComplete,
     Icon,
-    Avatar
+    Avatar,
+    BackTop,
+    Button,
+    ButtonGroup: Button.Group,
+    Carousel,
   },
   methods:{
     change(status){
